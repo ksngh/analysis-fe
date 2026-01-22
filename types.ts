@@ -7,6 +7,7 @@ export interface Product {
   price: number;
   change: number;
   imageUrl: string;
+  url: string;
 }
 
 export interface ChartDataPoint {

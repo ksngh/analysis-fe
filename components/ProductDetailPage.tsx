@@ -12,7 +12,7 @@ interface ProductDetailPageProps {
 const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ product, onBack }) => {
   const [chartRange, setChartRange] = useState<'24h' | '7d' | '30d' | '365d'>('24h');
 
-  // 기간별 더미 데이터 생성 로직 (시각적 차이를 위해 기간별로 살짝 다르게)
+  // 기간별 더미 데이터 생성 로직
   const getHistoryData = (range: string) => {
     const base = [
       { label: '6단계 전', rank: 12 },
@@ -24,7 +24,6 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ product, onBack }
       { label: '현재', rank: product.rank },
     ];
     
-    // 단순 데모용: 기간에 따라 데이터를 약간 변형
     if (range === '24h') return base.map(d => ({ ...d, label: d.label.replace('단계 전', '시간 전') }));
     if (range === '7d') return base.map(d => ({ ...d, label: d.label.replace('단계 전', '일 전'), rank: d.rank + 2 }));
     if (range === '30d') return base.map(d => ({ ...d, label: d.label.replace('단계 전', '일 전'), rank: Math.max(1, d.rank + 5) }));
@@ -36,7 +35,6 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ product, onBack }
   return (
     <div className="flex-1 bg-white">
       <div className="max-w-7xl mx-auto px-6 py-12">
-        {/* Back Button */}
         <button 
           onClick={onBack}
           className="flex items-center gap-2 text-[#6c9a4c] font-black text-sm mb-12 hover:-translate-x-1 transition-transform"
@@ -98,19 +96,17 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ product, onBack }
             </div>
 
             <div className="space-y-10">
-              {/* Description */}
               <div className="bg-white border-l-4 border-[#6dec13] pl-6 py-2">
                 <h4 className="text-sm font-black text-gray-900 flex items-center gap-2 mb-3">
                   <Info className="w-4 h-4 text-[#6dec13]" /> 상품 핵심 정보
                 </h4>
                 <p className="text-gray-500 font-medium leading-relaxed">
                   이 제품은 {product.brand}의 베스트셀러로, {product.category} 카테고리에서 독보적인 점유율을 기록하고 있습니다. 
-                  고객들의 실제 리뷰 데이터 분석 결과, "발림성"과 "가성비" 측면에서 가장 높은 만족도를 보이고 있으며, 
-                  데이터 엔진 분석 결과 향후 순위권 유지가 매우 유력합니다.
+                  고객들의 실제 리뷰 데이터 분석 결과와 데이터 엔진 분석 결과 향후 순위권 유지가 매우 유력합니다.
                 </p>
               </div>
 
-              {/* Weekly Trend Chart with Tabs */}
+              {/* Trend Chart */}
               <div>
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
                   <h4 className="text-sm font-black text-gray-900 uppercase tracking-widest flex items-center gap-2">
