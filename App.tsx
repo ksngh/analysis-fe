@@ -1,33 +1,121 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import Header from './components/Header';
 import Sidebar from './components/Sidebar';
 import RankTrendChart from './components/RankTrendChart';
 import RankTable from './components/RankTable';
+import AIChat from './components/AIChat';
+import ProductDetailPanel from './components/ProductDetailPanel';
+import LandingPage from './components/LandingPage';
+import ProductDetailPage from './components/ProductDetailPage';
+import SelectedProducts from './components/SelectedProducts';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { Product } from './types';
+import { MOCK_PRODUCTS } from './constants';
+
+export type ViewState = 'landing' | 'dashboard' | 'detail';
 
 const App: React.FC = () => {
+  const [view, setView] = useState<ViewState>('landing');
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+  const [isPanelOpen, setIsPanelOpen] = useState(false);
+  const [timeRange, setTimeRange] = useState<'24h' | '7d' | '30d' | '365d'>('24h');
+  
+  // 선택된 상품의 Rank를 저장하는 상태 (기본값으로 1, 3번 선택)
+  const [selectedRanks, setSelectedRanks] = useState<number[]>([1, 3]);
+
+  const handleProductClick = (product: Product) => {
+    setSelectedProduct(product);
+    setIsPanelOpen(true);
+  };
+
+  const handleGoToDetail = (product: Product) => {
+    setSelectedProduct(product);
+    setIsPanelOpen(false);
+    setView('detail');
+    window.scrollTo(0, 0);
+  };
+
+  const closePanel = () => {
+    setIsPanelOpen(false);
+  };
+
+  // 체크박스 토글 로직
+  const toggleSelect = (rank: number) => {
+    setSelectedRanks(prev => 
+      prev.includes(rank) ? prev.filter(r => r !== rank) : [...prev, rank]
+    );
+  };
+
+  // 전체 선택 로직
+  const handleSelectAll = (ranks: number[]) => {
+    setSelectedRanks(ranks);
+  };
+
+  const selectedProductList = MOCK_PRODUCTS.filter(p => selectedRanks.includes(p.rank));
+
+  if (view === 'landing') {
+    return <LandingPage onStart={() => setView('dashboard')} />;
+  }
+
+  if (view === 'detail' && selectedProduct) {
+    return (
+      <div className="min-h-screen flex flex-col bg-[#f7f8f6]">
+        <Header onLogoClick={() => setView('landing')} />
+        <ProductDetailPage 
+          product={selectedProduct} 
+          onBack={() => setView('dashboard')} 
+        />
+        <AIChat />
+      </div>
+    );
+  }
+
+  const timeOptions = [
+    { id: '24h', label: '24시간' },
+    { id: '7d', label: '7일' },
+    { id: '30d', label: '30일' },
+    { id: '365d', label: '365일' },
+  ] as const;
+
   return (
     <div className="min-h-screen flex flex-col bg-[#f7f8f6]">
-      <Header />
+      <Header onLogoClick={() => setView('landing')} />
       
       <div className="flex flex-1 max-w-[1600px] mx-auto w-full">
         <Sidebar />
         
         <main className="flex-1 p-8 overflow-x-hidden">
+          {/* Time Range Tabs */}
+          <div className="flex items-center gap-2 mb-8 bg-white p-1 rounded-2xl border border-[#ecf3e7] w-fit shadow-sm">
+            {timeOptions.map((option) => (
+              <button
+                key={option.id}
+                onClick={() => setTimeRange(option.id)}
+                className={`px-6 py-2.5 rounded-xl text-sm font-black transition-all ${
+                  timeRange === option.id 
+                    ? 'bg-[#6dec13] text-gray-900 shadow-lg shadow-[#6dec13]/20' 
+                    : 'text-gray-400 hover:text-gray-600 hover:bg-gray-50'
+                }`}
+              >
+                {option.label}
+              </button>
+            ))}
+          </div>
+
           {/* Stats Grid */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
             <div className="bg-white p-5 rounded-2xl border border-[#ecf3e7] shadow-sm hover:shadow-md transition-shadow">
-              <p className="text-[11px] font-bold uppercase tracking-wider text-[#6c9a4c]">총 상품</p>
+              <p className="text-[11px] font-bold uppercase tracking-wider text-[#6c9a4c]">전체 등록 상품</p>
               <div className="flex items-baseline justify-between mt-2">
                 <h4 className="text-3xl font-black text-gray-900">1,284</h4>
                 <span className="text-[11px] font-black text-[#6dec13] bg-[#6dec13]/10 px-2 py-0.5 rounded-full">
-                  오늘 신규 12개
+                  오늘 +12개 추가
                 </span>
               </div>
             </div>
             <div className="bg-white p-5 rounded-2xl border border-[#ecf3e7] shadow-sm hover:shadow-md transition-shadow">
-              <p className="text-[11px] font-bold uppercase tracking-wider text-[#6c9a4c]">상위 카테고리</p>
+              <p className="text-[11px] font-bold uppercase tracking-wider text-[#6c9a4c]">인기 카테고리</p>
               <div className="flex items-baseline justify-between mt-2">
                 <h4 className="text-3xl font-black text-gray-900">스킨케어</h4>
                 <span className="text-[11px] font-bold text-[#6c9a4c]">상위 100개 중 42%</span>
@@ -38,19 +126,31 @@ const App: React.FC = () => {
               <div className="flex items-baseline justify-between mt-2">
                 <h4 className="text-3xl font-black text-gray-900">높음</h4>
                 <span className="text-[11px] font-black text-orange-500 bg-orange-50 px-2 py-0.5 rounded-full">
-                  1시간 내 순위 교체 85회
+                  시간당 85회 순위 변동
                 </span>
               </div>
             </div>
           </div>
 
+          {/* Selected Products Section */}
+          <SelectedProducts 
+            selectedProducts={selectedProductList}
+            onRemove={toggleSelect}
+            onClearAll={() => handleSelectAll([])}
+          />
+
           <RankTrendChart />
           
-          <RankTable />
+          <RankTable 
+            selectedRanks={selectedRanks}
+            onToggleSelect={toggleSelect}
+            onSelectAll={handleSelectAll}
+            onProductClick={handleProductClick} 
+          />
 
           {/* Footer / Pagination */}
           <div className="mt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
-            <p className="text-xs font-bold text-[#6c9a4c]">총 1,284개 중 1-10개 표시</p>
+            <p className="text-xs font-bold text-[#6c9a4c]">총 1,284개 중 1-10번 상품 표시 중</p>
             <div className="flex gap-2">
               <button className="flex items-center gap-1 px-5 py-2.5 bg-white border border-[#ecf3e7] rounded-xl text-sm font-bold text-gray-400 cursor-not-allowed shadow-sm">
                 <ChevronLeft className="w-4 h-4" /> 이전
@@ -62,6 +162,15 @@ const App: React.FC = () => {
           </div>
         </main>
       </div>
+
+      <ProductDetailPanel 
+        product={selectedProduct} 
+        isOpen={isPanelOpen} 
+        onClose={closePanel}
+        onViewDetail={handleGoToDetail}
+      />
+
+      <AIChat />
     </div>
   );
 };

@@ -7,15 +7,15 @@ const RankTrendChart: React.FC = () => {
   return (
     <div className="bg-white rounded-2xl border border-[#ecf3e7] shadow-sm p-6 mb-8">
       <div className="flex items-center justify-between mb-8">
-        <h3 className="font-bold text-gray-900">순위 추이 (최근 24시간)</h3>
+        <h3 className="font-bold text-gray-900">순위 트렌드</h3>
         <div className="flex gap-6">
           <div className="flex items-center gap-2">
             <span className="w-3 h-3 bg-[#6dec13] rounded-full"></span>
-            <span className="text-xs font-bold text-gray-600">COSRX Snail Mucin</span>
+            <span className="text-xs font-bold text-gray-600">코스알엑스 스네일 에센스</span>
           </div>
           <div className="flex items-center gap-2">
             <div className="w-3 h-1 border-b-2 border-dashed border-[#60a5fa]"></div>
-            <span className="text-xs font-bold text-gray-600">Beauty of Joseon</span>
+            <span className="text-xs font-bold text-gray-600">조선미녀 선크림</span>
           </div>
         </div>
       </div>

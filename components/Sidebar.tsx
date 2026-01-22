@@ -8,7 +8,7 @@ const Sidebar: React.FC = () => {
       <div>
         <h3 className="text-[10px] font-bold uppercase tracking-widest text-[#6c9a4c] mb-4">필터</h3>
         <div className="space-y-1">
-          <div className="flex items-center justify-between p-2.5 bg-[#6dec13]/10 text-[#2a4519] rounded-lg text-sm font-bold">
+          <div className="flex items-center justify-between p-2.5 bg-[#6dec13]/10 text-[#2a4519] rounded-lg text-sm font-bold cursor-pointer">
             <div className="flex items-center gap-2">
               <Layers className="w-4 h-4" />
               <span>카테고리</span>
@@ -38,13 +38,13 @@ const Sidebar: React.FC = () => {
       </div>
 
       <div>
-        <h3 className="text-[10px] font-bold uppercase tracking-widest text-[#6c9a4c] mb-4">정렬</h3>
+        <h3 className="text-[10px] font-bold uppercase tracking-widest text-[#6c9a4c] mb-4">정렬 기준</h3>
         <div className="relative">
           <select className="w-full bg-[#ecf3e7] border-none rounded-lg text-sm font-semibold text-gray-700 py-2.5 pl-3 pr-8 appearance-none focus:ring-2 focus:ring-[#6dec13]/50">
-            <option>현재 순위</option>
-            <option>상승 TOP</option>
-            <option>하락 TOP</option>
-            <option>가격: 낮은 순</option>
+            <option>현재 순위순</option>
+            <option>급상승순</option>
+            <option>급하락순</option>
+            <option>가격 낮은순</option>
           </select>
           <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#6c9a4c] pointer-events-none" />
         </div>
@@ -55,7 +55,7 @@ const Sidebar: React.FC = () => {
           필터 적용
         </button>
         <button className="w-full py-2 text-[#6c9a4c] text-xs font-bold hover:underline">
-          전체 초기화
+          모든 필터 초기화
         </button>
       </div>
     </aside>
