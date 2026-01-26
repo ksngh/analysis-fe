@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { Layers, Award, Tag, BarChart3, ChevronDown, ChevronUp, Check, Search as SearchIcon } from 'lucide-react';
+import { Layers, Award, Tag, BarChart3, ChevronDown, ChevronUp, Check, Search as SearchIcon, LayoutDashboard, Store, Youtube } from 'lucide-react';
 
 interface FilterSectionProps {
   title: string;
@@ -38,7 +38,14 @@ const FilterSection: React.FC<FilterSectionProps> = ({ title, icon, isOpen, onTo
   </div>
 );
 
-const Sidebar: React.FC = () => {
+type ViewState = 'landing' | 'dashboard' | 'detail' | 'my-brand' | 'ad-analytics';
+
+interface SidebarProps {
+  onNavigate?: (v: ViewState) => void;
+  currentView?: ViewState;
+}
+
+const Sidebar: React.FC<SidebarProps> = ({ onNavigate, currentView }) => {
   const [openSections, setOpenSections] = useState<Record<string, boolean>>({
     category: true,
     brand: true,
@@ -54,7 +61,46 @@ const Sidebar: React.FC = () => {
 
   return (
     <aside className="w-64 shrink-0 border-r border-[#ecf3e7] p-6 hidden lg:flex flex-col gap-8 bg-white/50 h-[calc(100vh-65px)] sticky top-[65px] overflow-y-auto">
+      
       <div>
+              <div>
+        <h3 className="text-[10px] font-bold uppercase tracking-widest text-[#6c9a4c] mb-4">네비게이션</h3>
+        <div className="space-y-1">
+          <button 
+            onClick={() => onNavigate?.('dashboard')}
+            className={`w-full flex items-center gap-2.5 p-2.5 rounded-xl text-sm font-black transition-all ${
+              currentView === 'dashboard' 
+                ? 'bg-[#6dec13] text-gray-900 shadow-lg shadow-[#6dec13]/20' 
+                : 'text-gray-500 hover:bg-[#ecf3e7] hover:text-gray-900'
+            }`}
+          >
+            <LayoutDashboard className="w-4 h-4" />
+            <span>종합 대시보드</span>
+          </button>
+          <button 
+            onClick={() => onNavigate?.('my-brand')}
+            className={`w-full flex items-center gap-2.5 p-2.5 rounded-xl text-sm font-black transition-all ${
+              currentView === 'my-brand' 
+                ? 'bg-[#6dec13] text-gray-900 shadow-lg shadow-[#6dec13]/20' 
+                : 'text-gray-500 hover:bg-[#ecf3e7] hover:text-gray-900'
+            }`}
+          >
+            <Store className="w-4 h-4" />
+            <span>나의 브랜드관</span>
+          </button>
+          <button 
+            onClick={() => onNavigate?.('ad-analytics')}
+            className={`w-full flex items-center gap-2.5 p-2.5 rounded-xl text-sm font-black transition-all ${
+              currentView === 'ad-analytics' 
+                ? 'bg-[#6dec13] text-gray-900 shadow-lg shadow-[#6dec13]/20' 
+                : 'text-gray-500 hover:bg-[#ecf3e7] hover:text-gray-900'
+            }`}
+          >
+            <Youtube className="w-4 h-4" />
+            <span>광고분석관</span>
+          </button>
+        </div>
+      </div>
         <h3 className="text-[10px] font-bold uppercase tracking-widest text-[#6c9a4c] mb-4">상세 필터</h3>
         
         {/* Category Filter */}

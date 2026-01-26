@@ -120,6 +120,48 @@ export const MOCK_PRODUCTS: Product[] = [
     imageUrl: "https://image.oliveyoung.co.kr/cfimages/cf-goods/uploads/images/thumbnails/400/10/0000/0022/A00000022342412ko.png?l=ko",
     url: "https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000204014&dispCatNo=90000010009&trackingCd=Best_Sellingbest&t_page=랭킹&t_click=판매랭킹_전체_상품상세&t_number=7"
   }
+  ,
+  // 추가된 메디힐 샘플 데이터
+  {
+    rank: 11,
+    name: "메디힐 N.M.F 아쿠아링 앰플 마스크팩 10매",
+    brand: "메디힐",
+    category: "마스크/팩",
+    price: 12900,
+    change: 2,
+    imageUrl: "https://image.oliveyoung.co.kr/cfimages/cf-goods/uploads/images/thumbnails/400/10/0000/0022/A00000022342412ko.png?l=ko",
+    url: "https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000251234"
+  },
+  {
+    rank: 12,
+    name: "메디힐 티트리 케어 솔루션 에센셜 마스크",
+    brand: "메디힐",
+    category: "마스크/팩",
+    price: 11500,
+    change: -1,
+    imageUrl: "https://image.oliveyoung.co.kr/cfimages/cf-goods/uploads/images/thumbnails/400/10/0000/0022/A00000022342412ko.png?l=ko",
+    url: "https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000251235"
+  },
+  {
+    rank: 13,
+    name: "메디힐 더마 에이드 패드 60매",
+    brand: "메디힐",
+    category: "스킨케어",
+    price: 19800,
+    change: 5,
+    imageUrl: "https://image.oliveyoung.co.kr/cfimages/cf-goods/uploads/images/thumbnails/400/10/0000/0022/A00000022342412ko.png?l=ko",
+    url: "https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000251236"
+  },
+  {
+    rank: 14,
+    name: "메디힐 하이드로겔 아이패치 30쌍",
+    brand: "메디힐",
+    category: "아이케어",
+    price: 14900,
+    change: 0,
+    imageUrl: "https://image.oliveyoung.co.kr/cfimages/cf-goods/uploads/images/thumbnails/400/10/0000/0022/A00000022342412ko.png?l=ko",
+    url: "https://www.oliveyoung.co.kr/store/goods/getGoodsDetail.do?goodsNo=A000000251237"
+  }
 ];
 
 export const MOCK_CHART_DATA: ChartDataPoint[] = [
